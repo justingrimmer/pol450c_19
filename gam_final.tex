@@ -1,0 +1,1150 @@
+\documentclass{beamer}
+
+%\usepackage[table]{xcolor}
+\mode<presentation> {
+  \usetheme{Boadilla}
+%  \usetheme{Pittsburgh}
+%\usefonttheme[2]{sans}
+\renewcommand{\familydefault}{cmss}
+%\usepackage{lmodern}
+%\usepackage[T1]{fontenc}
+%\usepackage{palatino}
+%\usepackage{cmbright}
+  \setbeamercovered{transparent}
+\useinnertheme{rectangles}
+}
+%\usepackage{normalem}{ulem}
+%\usepackage{colortbl, textcomp}
+\setbeamercolor{normal text}{fg=black}
+\setbeamercolor{structure}{fg= black}
+\definecolor{trial}{cmyk}{1,0,0, 0}
+\definecolor{trial2}{cmyk}{0.00,0,1, 0}
+\definecolor{darkgreen}{rgb}{0,.4, 0.1}
+\usepackage{array}
+\beamertemplatesolidbackgroundcolor{white}  \setbeamercolor{alerted
+text}{fg=red}
+
+\setbeamertemplate{caption}[numbered]\newcounter{mylastframe}
+
+%\usepackage{color}
+\usepackage{tikz}
+\usetikzlibrary{arrows}
+\usepackage{colortbl}
+%\usepackage[usenames, dvipsnames]{color}
+%\setbeamertemplate{caption}[numbered]\newcounter{mylastframe}c
+%\newcolumntype{Y}{\columncolor[cmyk]{0, 0, 1, 0}\raggedright}
+%\newcolumntype{C}{\columncolor[cmyk]{1, 0, 0, 0}\raggedright}
+%\newcolumntype{G}{\columncolor[rgb]{0, 1, 0}\raggedright}
+%\newcolumntype{R}{\columncolor[rgb]{1, 0, 0}\raggedright}
+
+%\begin{beamerboxesrounded}[upper=uppercol,lower=lowercol,shadow=true]{Block}
+%$A = B$.
+%\end{beamerboxesrounded}}
+\renewcommand{\familydefault}{cmss}
+%\usepackage[all]{xy}
+
+\usepackage{tikz}
+\usepackage{lipsum}
+
+ \newenvironment{changemargin}[3]{%
+ \begin{list}{}{%
+ \setlength{\topsep}{0pt}%
+ \setlength{\leftmargin}{#1}%
+ \setlength{\rightmargin}{#2}%
+ \setlength{\topmargin}{#3}%
+ \setlength{\listparindent}{\parindent}%
+ \setlength{\itemindent}{\parindent}%
+ \setlength{\parsep}{\parskip}%
+ }%
+\item[]}{\end{list}}
+\usetikzlibrary{arrows}
+%\usepackage{palatino}
+%\usepackage{eulervm}
+\usecolortheme{lily}
+\newtheorem{ass}{Assumption}
+\newtheorem{com}{Comment}
+\newtheorem{lem} {Lemma}
+\newtheorem{prop}{Proposition}
+\newtheorem{thm}{Theorem}
+\newtheorem{defn}{Definition}
+\newtheorem{cor}{Corollary}
+\newtheorem{obs}{Observation}
+ \numberwithin{equation}{section}
+
+\title[Methodology III] % (optional, nur bei langen Titeln nötig)
+{Political Methodology III: Model Based Inference}
+
+\author[]{Justin Grimmer \\
+(Jens Hainmueller Based Slides)}
+
+\date{May 9th, 2019}
+
+\renewcommand\r{\right}
+\renewcommand\l{\left}
+\definecolor{dgreen}{rgb}{0,.6,0.8}
+\newtheorem{assumption}{Assumption}
+\newtheorem{iass}{Identification Assumption}
+\newtheorem{ires}{Identification Result}
+\newtheorem{estm}{Estimand}
+\newtheorem{esti}{Estimator}
+\newtheorem{question}{Question}
+\newtheorem{answer}{Answer}
+\newtheorem{proposition}{Proposition}
+\newcommand{\bs}{\boldsymbol}
+\newcommand{\mb}{\mathbf}
+\newcommand{\real}{\mathbb{R}}
+\renewcommand{\u}{\ensuremath{\mb{u}}}
+\renewcommand{\v}{\ensuremath{\mb{v}}}
+\newcommand{\U}{\ensuremath{\mb{U}}}
+\newcommand{\M}{\ensuremath{\mb{M}}}
+\newcommand{\X}{\ensuremath{\mb{X}}}
+\newcommand{\x}{\ensuremath{\mb{x}}}
+\newcommand{\y}{\ensuremath{\mb{y}}}
+\renewcommand{\b}{\ensuremath{\bs{\beta}}}
+\newcommand{\e}{\ensuremath{\bs{\epsilon}}}
+\newcommand{\bhat}{\ensuremath{\hat{\bs{\beta}}}}
+\newcommand{\XX}{\ensuremath{\X'\X}}
+\newcommand{\XXinv}{\ensuremath{\left(\XX\right)^{-1}}}
+\newcommand{\hatsig}{\ensuremath{\hat{\sigma}^2}}
+\newcommand{\sig}{\ensuremath{\sigma^2}}
+\newcommand{\hatmat}{\ensuremath{\X \XXinv \X'}}
+\newcommand{\ehat}{\ensuremath{\hat{\e}}}
+\newcommand{\tr}{\text{tr}}
+\newcommand{\Sig}{\ensuremath{\bs{\Sigma}}}
+\newcommand{\SigInv}{\ensuremath{\bs{\Sigma^{-1}}}}
+\newcommand{\W}{\ensuremath{\mb{W}}}
+\newcommand{\cN}{\mathcal{N}}
+\newcommand\spacingset[1]{\renewcommand{\baselinestretch}{#1}\small\normalsize}
+\newcommand{\var}{\text{Var}}
+\newcommand{\E}{\mathbb{E}}
+\newcommand{\cov}{\mbox{Cov}}
+\newcommand{\Cov}{\mbox{Cov}}
+%\newcommand{\cor}{\mbox{Cor}}
+\newcommand{\avepop}{\frac{1}{n}\sum_{i=1}^n}
+\newcommand{\indep}{{\bot\negthickspace\negthickspace\bot}}
+
+\DeclareMathOperator*\plim{plim}
+\useoutertheme{infolines}
+
+\setbeamertemplate{navigation symbols}{}
+
+\begin{document}
+
+
+\subject{Talks}
+\AtBeginSection[]
+{
+  \begin{frame}[plain]
+    \frametitle{}
+    \tableofcontents[currentsection]
+    \addtocounter{framenumber}{-1}
+  \end{frame}
+}
+
+\AtBeginSubsection[]
+{
+  \begin{frame}[plain]
+    \frametitle{}
+    \tableofcontents[currentsection,currentsubsection]
+    \addtocounter{framenumber}{-1}
+  \end{frame}
+}
+
+
+\frame[plain]{
+  \titlepage
+  \addtocounter{framenumber}{-1}
+}
+
+%%%%%%%%%%%%%%%%%
+
+
+\section{Learning the Regression Function}
+
+
+ \begin{frame}[fragile]
+\frametitle{Linear Models}
+
+Recall the linear model,
+$$
+y_i = \beta_0 + x_{1i}\beta_1 + x_{2i}\beta_2 + x_{3i}\beta_3 + u_i
+$$\pause
+
+Advantages:
+\begin{itemize}
+\item Simplicity
+\item Interpretability
+\item Easy to do inference
+\end{itemize}
+\medskip
+Downsides:
+\begin{itemize}
+\item Functional form assumptions (Linearity and Additivity)
+\item No learning
+\end{itemize}
+
+\end{frame}
+
+
+
+
+\frame{
+\frametitle{Nonlinearity}
+
+Linearity of the Conditional Expectation Function (\alert{$\y = \X \b +\mb{u}$}) is a key assumption. Why? \pause
+\begin{figure}[ht] \centering
+        \scalebox{.35}{\includegraphics{fig1-nl.pdf}}
+     \end{figure}
+
+}
+
+\frame{
+\frametitle{Nonlinearity}
+
+Linearity of the Conditional Expectation Function (\alert{$\y = \X \b +\mb{u}$}) is a key assumption. Why?
+\begin{figure}[ht] \centering
+        \scalebox{.35}{\includegraphics{fig2-nl.pdf}}
+     \end{figure}
+
+}
+
+
+\frame{
+\frametitle{Nonlinearity}
+    \begin{itemize}
+        \item If $E[Y|\X]$ is not linear in $\X$, $E[\mb{u}|\X] \ne 0$ for all values $\X=\mb{x}$ and $\hat{\b}$ may be biased and inconsistent.
+        \bigskip\pause
+  \item Nonlinearities may be important but few social scientific theories offer any guidance as to functional form whatsoever. \pause
+\begin{itemize}
+  \item Statements like ``y increases with x'' (monotonicity)
+are as specific as most social theories get.\medskip
+  \item Possible Exceptions: Returns to scale, constant elasticities, interactive effects, cyclical patterns in time series data, etc.\pause
+\end{itemize}\bigskip
+  \item Usually we employ ``linearity by default'' but we should try to make sure this is appropriate: \alert{detect} non-linearities and \alert{model} them accurately
+\end{itemize}
+
+}
+
+\begin{frame}[fragile]
+
+\frametitle{Diagnosing Nonlinearity}
+
+\begin{itemize}
+\item For \alert{marginal} relationships $Y$ and $X$
+\begin{itemize}
+  \item Scatterplots with loess lines
+\end{itemize}\bigskip \pause
+\item For \alert{partial} relationships $Y$ and $X_1$, controlling for $X_2$, $X_3$,...,$X_k$ the regression surface is high-dimensional. We need other diagnostic tools such as:
+\begin{itemize}
+  \item Added variables plots and component residual plots 
+  \end{itemize}\bigskip
+  \item Model diagnostics become rather difficult once we have many predictors
+%  \item \alert{Alternative}: Use a learning model that learns the functional form from the data (within a space of functions)
+%     \begin{itemize}
+ %     \item Semi-parametric regression techniques: \alert{Generalized Additive Models} (GAMs) 
+ %   \item Other machine learning methods: Random forrest, boosted trees, ridge/lasso/elastic net regression, kernel based methods, etc.
+%\end{itemize}
+%  \item loess plots of $Y$ and $X$s
+%  \item added variable plots (plots of $Y$ and $X_j$ after ``controlling'' for linear component of other $X$s)
+%  \item component plus residual plots (aka partial \emph{residual}
+%  plots)
+%  \item
+% \item
+\end{itemize}
+
+\end{frame}
+
+\frame{
+\frametitle{How should we deal with nonlinearity?}
+\small
+Given we have a linear regression model, our options are somewhat limited. We can partially address nonlinearity by:
+\begin{itemize}
+  \item Breaking categorical or continuous variables into dummy variables (e.g. education levels)
+  \item Including interactions
+  \item Including polynomial terms
+  \item Transformations such as logs
+\end{itemize}\bigskip
+
+ \alert{Alternative}: Use a learning model that learns the functional form from the data (within a space of functions)
+  
+     \begin{itemize}
+      \item Semi-parametric regression techniques: \alert{Generalized Additive Models} (GAMs) 
+    \item Other machine learning methods: random forrest, boosted trees, ridge/lasso/elastic net regression, kernel based methods, etc.
+\end{itemize}
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+%
+%\frame{
+%\frametitle{Example: Attitudes Towards Immigration}
+%
+%\begin{itemize}
+%  \item Outcome: Pro-Immigration Attitudes
+%\begin{footnotesize}
+%  \begin{itemize}
+%    \item 1 Strongly opposed to increase in immigration
+%    \item .
+%    \item 5 Strongly in favour of increase in immigration
+%  \end{itemize}
+%\end{footnotesize}
+%  \item Highest Educational Attainment:\\
+%\begin{footnotesize}
+%\begin{itemize}
+%  \item 1 Less than high school
+%  \item 2 Some high school, no diploma
+%  \item 3 Graduated from high school- Diploma or equivalent (GED)
+%  \item 4 Some college, no degree
+%  \item 5 Associate degree (AA, AS)
+%  \item 6 Bachelor's degree
+%  \item 7 Master's degree
+%  \item 8 Professional degree (MD, DDS, LLB, JD)
+%  \item 9 Doctorate degree
+%\end{itemize}
+%\end{footnotesize}
+%%  \item Household Income
+%%\begin{footnotesize}
+%%  \begin{itemize}
+%%    \item 1  Less than \$5,000
+%%    \item
+%%    \item 19 More than \$175,000
+%%\end{itemize}
+%%\end{footnotesize}
+%  \item Age of Respondent
+%\begin{footnotesize}
+%  \begin{itemize}
+%    \item 18 years to 93 years
+%\end{itemize}
+%\end{footnotesize}
+%
+%\end{itemize}
+%
+%}
+%
+%\frame{
+%\frametitle{Attitudes Towards Immigration (2008)}
+%
+%\begin{figure}[ht] \centering
+%        \scalebox{.55}{\includegraphics{fig0-nl.pdf}}
+%     \end{figure}
+%
+%}
+%
+%\frame{
+%\frametitle{Immigration Attitudes and Education}
+%
+%\begin{figure}[ht] \centering
+%        \scalebox{.45}{\includegraphics{fig1i-nl.pdf}}
+%     \end{figure}
+%
+%}
+%
+%\frame{
+%\frametitle{Immigration Attitudes and Education}
+%
+%\begin{figure}[ht] \centering
+%        \scalebox{.45}{\includegraphics{fig2i-nl.pdf}}
+%     \end{figure}
+%
+%}
+%
+%
+%\begin{frame}[fragile]
+%\frametitle{Immigration Attitudes and Education}
+%
+%\begin{Verbatim}[fontsize=\footnotesize, frame=single, label=R Code]
+%> mod0 <- lm(imgpro5mod1~ppeduc, data=d)
+%> coeftest(mod0)
+%
+%t test of coefficients:
+%
+%            Estimate Std. Error t value  Pr(>|t|)
+%(Intercept) 1.859180   0.081894 22.7022 < 2.2e-16 ***
+%ppeduc      0.165658   0.017636  9.3929 < 2.2e-16 ***
+%---
+%Signif. codes:  0 *** 0.001 ** 0.01 * 0.05 . 0.1   1
+%\end{Verbatim}
+%
+%\end{frame}
+%
+%\begin{frame}[fragile]
+%\frametitle{Immigration Attitudes and Education}
+%
+%\begin{Verbatim}[fontsize=\footnotesize, frame=single, label=R Code]
+%> mod0a <- lm(imgpro5mod1~factor(ppeduc), data=d)
+%> coeftest(mod0a)
+%
+%t test of coefficients:
+%
+%                Estimate Std. Error t value  Pr(>|t|)
+%(Intercept)     2.173913   0.253720  8.5682 < 2.2e-16 ***
+%factor(ppeduc)2 0.261461   0.272848  0.9583 0.3380747
+%factor(ppeduc)3 0.096465   0.259456  0.3718 0.7100945
+%factor(ppeduc)4 0.324500   0.262820  1.2347 0.2171310
+%factor(ppeduc)5 0.461008   0.275907  1.6709 0.0949432 .
+%factor(ppeduc)6 0.673605   0.263864  2.5528 0.0107779 *
+%factor(ppeduc)7 1.059170   0.274784  3.8546 0.0001206 ***
+%factor(ppeduc)8 0.740373   0.326614  2.2668 0.0235363 *
+%factor(ppeduc)9 1.186087   0.351565  3.3737 0.0007595 ***
+%\end{Verbatim}
+%
+%\end{frame}
+%
+%
+%\frame{
+%\frametitle{Immigration Attitudes and Age}
+%
+%\begin{figure}[ht] \centering
+%        \scalebox{.45}{\includegraphics{fig5i-nl.pdf}}
+%     \end{figure}
+%
+%}
+%
+%\frame{
+%\frametitle{Immigration Attitudes and Age}
+%
+%\begin{figure}[ht] \centering
+%        \scalebox{.45}{\includegraphics{fig6i-nl.pdf}}
+%     \end{figure}
+%
+%}
+%
+%\begin{frame}[fragile]
+%\frametitle{Immigration Attitudes and Age}
+%
+%\begin{Verbatim}[fontsize=\footnotesize, frame=single, label=R Code]
+%> mod1 <- lm(imgpro5mod1~ppage, data=d)
+%> coeftest(mod1)
+%t test of coefficients:
+%              Estimate Std. Error t value  Pr(>|t|)
+%(Intercept)  2.8201106  0.0957797  29.444 < 2.2e-16 ***
+%ppage       -0.0051324  0.0018772  -2.734  0.006326 **
+%>
+%> mod1a <- lm(imgpro5mod1~ppage+I(ppage^2), data=d)
+%> coeftest(mod1a)
+%t test of coefficients:
+%               Estimate  Std. Error t value  Pr(>|t|)
+%(Intercept)  3.60493245  0.23929787 15.0646 < 2.2e-16 ***
+%ppage       -0.04123139  0.01026562 -4.0165 6.184e-05 ***
+%I(ppage^2)   0.00036702  0.00010262  3.5763 0.0003589 ***
+%\end{Verbatim}
+%
+%\end{frame}
+%
+%\frame{
+%\frametitle{Immigration Attitudes, Education and Age}
+%
+%\begin{figure}[ht] \centering
+%        \scalebox{.45}{\includegraphics{fig3d1-nl.pdf}}
+%     \end{figure}
+%
+%}
+%
+%\frame{
+%\frametitle{Immigration Attitudes, Education and Age}
+%
+%\begin{figure}[ht] \centering
+%        \scalebox{.45}{\includegraphics{fig3d2-nl.pdf}}
+%     \end{figure}
+%}
+%
+%\subsection{Added Variable Plots}
+%
+%
+%\frame{
+%
+%\frametitle{Added Variable Plots}
+%\small
+%AV plots allow to visualize the relationship between $Y$ and $X_j$, after the linear component of the other $X$ variables has been controlled for.\\\bigskip
+%
+%Constructing an \alert{added variable plot} for $X_j$
+%\begin{enumerate}
+%\item Get residuals from regressing $Y$ on all predictors but omitting $X_j$\pause
+%\item Get residuals from regressing $X_j$ on all other predictors\pause
+%\item Plot the residuals from (1) against the residuals from (2)\pause
+%\begin{itemize}
+%\item Note that these steps are identical to the ``partialing out'' procedure
+%\item In R: \texttt{avPlots(model)} from \texttt{car} package
+%\end{itemize}
+%\end{enumerate}\bigskip\pause
+%
+%Facts about AV Plots
+%\begin{itemize}
+%  \item LS fit to the AV-plot has slope $\hat{\beta}_j$ and intercept zero.\pause
+%  \item Residuals from LS fit to the AV-plot are identical to the residuals from LS fit of the original model ($Y$ on all $X$ including $X_j$).\pause
+%  \item Add Loess fit to detect various violations such as nonlinearity, heteroscedasticity, or outliers.
+%\end{itemize}
+%
+%}
+%
+%
+%\begin{frame}[fragile]
+%\frametitle{Added Variable Plot for Age}
+%
+%\begin{Verbatim}[fontsize=\footnotesize, frame=single, label=R Code, commandchars=\\\{\}]
+%> y_educ <-lm(imgpro5mod1~ppeduc,data=d) # \alert{1: Y on all but Xj}
+%> coeftest(y_educ)
+%t test of coefficients:
+%            Estimate Std. Error t value  Pr(>|t|)
+%(Intercept) 1.859180   0.081894 22.7022 < 2.2e-16 ***
+%ppeduc      0.165658   0.017636  9.3929 < 2.2e-16 ***
+%
+%> age_educ <-lm(ppage~ppeduc,data=d) # \alert{2: Xj on all other Xs}
+%> coeftest(age_educ)
+%t test of coefficients:
+%            Estimate Std. Error t value Pr(>|t|)
+%(Intercept) 49.88973    1.12154 44.4832   <2e-16 ***
+%ppeduc      -0.39053    0.24153 -1.6169   0.1061
+%
+%> coeftest(lm(resid(y_educ)~resid(age_educ)))
+%t test of coefficients:                  # \alert{3: Res from 1 on Res from 2}
+%                   Estimate  Std. Error t value Pr(>|t|)
+%(Intercept)      3.3832e-17  3.0545e-02   0.000  1.00000
+%resid(age_educ) -4.4421e-03  1.8296e-03  -2.428  0.01529 *
+%\end{Verbatim}
+%
+%\end{frame}
+%
+%\begin{frame}[fragile]
+%\frametitle{Added Variable Plot for Age}
+%\small
+%Aside: We can reproduce the coefficient on age from the multivariate regression,
+%as we saw before:
+%\begin{Verbatim}[fontsize=\footnotesize, frame=single, label=R Code, commandchars=\\\{\}]
+%> coeftest(lm(imgpro5mod1~ppeduc+ppage,data=d))
+%t test of coefficients:
+%              Estimate Std. Error t value Pr(>|t|)
+%(Intercept)  2.0807961  0.1225670 16.9768  < 2e-16 ***
+%ppeduc       0.1639231  0.0176238  9.3012  < 2e-16 ***
+%ppage       -0.0044421  0.0018301 -2.4272  0.01533 *
+%\end{Verbatim}
+%\pause
+%We can then construct the AV plot:
+%\begin{Verbatim}[fontsize=\footnotesize, frame=single, label=R Code, commandchars=\\\{\}]
+%> plot(y=resid(y_educ),resid(age_educ),
+%+              col=c("red","red"),
+%+              ylab="Residuals: Y on eduction",
+%+              xlab="Residuals: Age on Education")
+%> loess <- loess(resid(y_educ)~resid(age_educ))
+%> points(y=loess$fitted,loess$x,col="blue",pch=19)
+%\end{Verbatim}
+%\end{frame}
+%
+%\frame{
+%\frametitle{Added Variable Plot for Age}
+%
+%\begin{figure}[ht] \centering
+%        \scalebox{.35}{\includegraphics{AV1.pdf}}
+%     \end{figure}
+%
+%}
+%
+%\subsection{Component-Plus-Residual (CR) Plots}
+%
+%\frame{
+%\frametitle{Component-Plus-Residual (CR) Plots}
+%\small
+%CR plots are an refinement of AV plots.
+%
+%\begin{enumerate}
+%  \item Compute residuals from the full regression of $Y$ on all $X$: $\hat{u}_i = Y_i - (\hat{\beta}_0 + \hat{\beta}_1 X_{i1} + ... + \hat{\beta}_j X_{ij})$ \medskip
+%  \item Compute the linear component of the partial relationship between $Y$ and $X_j$ from the full model, $lc_i = \hat{\beta}_j X_{ij}$ and add it to the residuals $\hat{u}_i^{j}=\hat{u}_i + lc_i$\medskip
+%  \item Plot this partial residual $\hat{u}_i^{j}$ against $X_j$
+%  \begin{itemize}
+%    \item \texttt{R}: \texttt{crPlots(model)}
+%  %  Stata: \texttt{cprplot xj};
+%  \end{itemize}
+%\end{enumerate}\bigskip
+%\pause
+%Facts about CR Plots
+%\begin{itemize}
+%  \item LS fit to the CR-plot has the slope $\hat{\beta}_j$ by construction\pause
+%  \item Compared to AV plots, they have the $X_j$ on the X-axis which may be more intuitive to determine non-linearities and potential transformations\pause
+%  \item Add Loess fit to detect various violations such as nonlinearity, heteroscedasticity, or outliers.
+%\end{itemize}
+%
+%}
+%
+%\begin{frame}[fragile]
+%\frametitle{Component-Plus-Residual Plots}
+%\begin{Verbatim}[fontsize=\footnotesize, frame=single, label=R Code, commandchars=\\\{\}]
+%> crPlots(lm(imgpro5mod1~ppeduc+ppage,data=d))
+%\end{Verbatim}
+%\begin{figure}[ht] \centering
+%        \scalebox{.325}{\includegraphics{CR1.pdf}}
+%     \end{figure}
+%\end{frame}
+%
+%
+%\frame{
+%\frametitle{Limitations of CR Plots}
+%
+%\begin{itemize}
+%  \item AV plots and CR plots can only reveal partial relationships
+%  \item Oftentimes, these two-dimensional displays fail to uncover structure in
+%  a higher-dimensional problem \medskip\pause
+%  \item We may detect an interaction between $X_1$ and $X_2$ in a 3D scatterplot that we could miss in two scatterplots of $Y$ on each $X$\medskip\pause
+%\item Cook (1993) shows that CR plots only work when:\pause
+%\begin{enumerate}
+%\item The relationship between $Y$ and $X_j$ is linear \medskip
+%\item Other explanatory variables $(X_1,...,X_{j-1})$ are linearly related to $X_j$ \medskip
+%\item Suggests that linearizing the relationship between the $X$s through transformations can be helpful\medskip
+%\item Experience suggests weak non-linearities among $X$s do not invalidate CR plots
+%\end{enumerate}
+%\end{itemize}
+%
+%}
+%
+%
+%\frame{
+%\frametitle{How should we deal with nonlinearity?}
+%\small
+%Given we have a linear regression model, our options are somewhat limited. However
+%we can partially address nonlinearity by:
+%\begin{itemize}
+%  \item Breaking categorical or continuous variables into dummy variables (e.g. education levels)\medskip
+%  \item Including interactions\medskip
+%  \item Including polynomial terms\medskip
+%  \item Transformations such as logs
+%  \item Generalized Additive Models (GAM)
+%  \item Many more flexible, nonlinear regression models exist beyond the scope of this course (350C, 350D). 
+%\end{itemize}
+%}
+
+ \begin{frame}[fragile]
+\frametitle{Generalized Additive Models (GAM)}
+
+Take the linear model,
+$$
+y_i = \beta_0 + x_{1i}\beta_1 + x_{2i}\beta_2 + x_{3i}\beta_3 + u_i
+$$
+
+Ideally one would have a model that learns 
+$$
+y_i = f( x_{1i}, x_{2i},x_{3i}) + u_i
+$$
+but this is hard.\\\bigskip
+For GAMs, we maintain additivity, but instead of imposing linearity we allow flexible functional forms for each explanatory variable$$
+y_i = \beta_0 + \alert{s_1(x_{1i})} + \alert{s_2(x_{2i})} + \alert{s_3(x_{3i})} + u_i
+$$
+
+ where $\alert{s_1(\cdot)}, \alert{s_2(\cdot)},\,\, \mbox{and} \,\,\alert{s_3(\cdot)}$ are
+smooth functions that are estimated from the data.
+
+
+\end{frame}
+
+% \begin{frame}[fragile]
+%\frametitle{Generalized Additive Models (GAM)}
+%\small
+%$$
+%y_i = \beta_0 + \alert{s_1(x_{1i})} + \alert{s_2(x_{2i})} + \alert{s_3(x_{3i})} + u_i
+%$$
+%\begin{itemize}
+%  \item GAMS are semi-parametric, they strike a compromise between nonparametric methods and parametric regression 
+%  \item \alert{$s_j(\cdot)$} are usually estimated with locally weighted regression smoothers or cubic smoothing splines (but many approaches are possible)
+%  \item They do NOT give you a set of regression parameters $\hat{\beta}$. Instead one obtains a graphical summary of how $E[Y|X_,X_2,...,X_k]$ varies with $X_1$ (estimates of $s_j(\cdot)$ at every value of $X_{i,j}$)
+%  \item Theory and estimation are somewhat involved, but they are easy to use
+%%  \begin{itemize}
+%%    \item \texttt{gam.out     <- gam(y$\sim$s(x1)+s(x2)+x3)}\\
+%%          \texttt{plot(gam.out)}\smallskip
+%%    \item Good function:  \texttt{mgcv(gam)} % \texttt{vgam(vgam)}
+%%  \end{itemize}
+%\end{itemize}
+%\end{frame}
+
+
+
+
+
+
+ \begin{frame}[fragile]
+\frametitle{Generalized Additive Models (GAM)}
+\small
+$$
+y_i = \beta_0 + \alert{s_1(x_{1i})} + \alert{s_2(x_{2i})} + \alert{s_3(x_{3i})} + u_i
+$$
+\begin{itemize}
+  \item GAMs are semi-parametric, they strike a compromise between nonparametric methods and parametric regression 
+  \item GAMs are additive: create estimates of the regression surface by a sum of one-dimensional functions
+  \item GAMs do not give you a set of regression parameters $\hat{\beta}$, but estimated functions $s_j(\cdot)$ 
+    \item The functions can be summarized using a graphical summary of how $E[Y|X_,X_2,...,X_k]$ varies with $X_1$ (estimates of $s_j(\cdot)$ at every value of $X_{i,j}$)
+  \item $s_j(\cdot)$ are usually estimated via back-fitting using locally weighted regression smoothers or various forms of splines (but many approaches are possible)
+ \item Theory and estimation are somewhat involved, but they are easy to use
+%  \begin{itemize}
+%    \item \texttt{gam.out     <- gam(y$\sim$s(x1)+s(x2)+x3)}\\
+%          \texttt{plot(gam.out)}\smallskip
+%    \item Good function:  \texttt{mgcv(gam)} % \texttt{vgam(vgam)}
+%  \end{itemize}
+\end{itemize}
+\end{frame}
+
+
+ \begin{frame}[fragile]
+\frametitle{Generalized Additive Models (GAM)}
+\small
+\begin{itemize}
+  \item Assumption that the contribution of each covariate is additive is analogous to the assumption in linear regression that each component is estimated separately
+\item In OLS
+$$
+y_i = \beta_0 + \sum_{j=1}^J  \beta_j   x_{ji} + u_i
+$$  
+  
+  \item GAMs assume similar additivity, but  $y_i$ is modeled as sum of arbitrary functions of the $x$-s
+  $$
+  y_i = \beta_0 + \sum_{j=1}^J   s_j(x_{ij}) + u_i
+  $$
+errors are  assumed to be mean zero and constant variance
+%  \begin{itemize}
+%    \item \texttt{gam.out     <- gam(y$\sim$s(x1)+s(x2)+x3)}\\
+%          \texttt{plot(gam.out)}\smallskip
+%    \item Good function:  \texttt{mgcv(gam)} % \texttt{vgam(vgam)}
+%  \end{itemize}
+\end{itemize}
+\end{frame}
+
+
+\subsection{Fitting}
+
+
+ \begin{frame}[fragile]
+\frametitle{Generalized Additive Models (GAM)}
+\small
+\begin{itemize}
+  \item How do we learn the arbitrary functions $s_j(x_{j}) $?
+  \item Consider the case where the $X$s are independent, then we could simply estimate $s_j(x_{j}) $ by estimating a smooth of $Y$ on each of the $X$s separately
+  \item Similarly in linear regression when the X-s are uncorrelated, the partial regression slopes are identical to the marginal regression slopes
+  \item Since the $X$s are usually correlated, we need to remove the effects of other predictors
+  \item  Solution: Backfitting algorithm that finds each function while controlling for the effects of the other $X$s
+\end{itemize}
+\end{frame}
+
+
+ \begin{frame}[fragile]
+\frametitle{Backfitting}
+\small
+\begin{itemize}
+  \item Suppose that we have a two predictor additive model:$$
+y_i = \beta_0 + \alert{s_1(x_{1i})} + \alert{s_2(x_{2i})}  + u_i
+$$
+\item If we knew the partial regression function $s_2$ but not $s_1$ we could re-arrange
+$$
+y_i - \alert{s_2(x_{2i})} = \beta_0 + \alert{s_1(x_{1i})} +   + u_i
+$$ and use this to estimate $s_1$ by smoothing $y_i - \alert{s_2(x_{2i})} $ against $x_1$.
+\item Knowing one partial function allows us to find the other
+\item We don't know $s_2$, but we can approximate it with an initial guess and then proceed iteratively $\rightarrow$ backfitting!
+\end{itemize}
+\end{frame}
+
+
+ \begin{frame}[fragile]
+\frametitle{Backfitting}
+\small
+\begin{enumerate}
+  \item Express variables in mean-deviation form to eliminate intercepts (partial regressions sum to zero)
+  \item Run simple linear regression to get initial estimates of each partial regression function$$
+y_i -\bar{y} =  \beta_1 ( x_{1i} - \bar{x}_1 ) +  \beta_2 ( x_{2i} - \bar{x}_2 )  + \epsilon_i
+  $$
+  $$
+  y_i^\star =  \beta_1 x_{1i}^\star  +  \beta_2 x_{2i}^\star   + \epsilon_i
+  $$
+ \item Use estimates as step 0 in iterative estimation procedure 
+ 
+ $$
+ \hat{s_1}^{(0)} =  \hat{\beta}_1 x_{1i}^\star \,\, \mbox{and}  \,\,   \hat{s_2}^{(0)} =  \hat{\beta}_2 x_{2i}^\star 
+ $$
+ \item Then we find partial residuals for $x_1$ which removes $y$ from its linear relationship with $x_2$, but retains relationship between $y$ and $x_1$. Partial residuals for $x_1$ are$$
+ \epsilon_{i[1]}^{(1)}  =  y_i^\star -  \hat{\beta}_2 x_{2i}^\star = \epsilon_i + \hat{\beta}_1 x_{1i}^\star
+ $$
+ and we do the same for $x_2$
+\end{enumerate}
+\end{frame}
+
+ \begin{frame}[fragile]
+\frametitle{Backfitting}
+\small
+\begin{enumerate}
+\setcounter{enumi}{4}
+  \item Now we can smooth the partial residuals against their respective $X$s to provide an updated estimate of $s()$. $$
+  \hat{s_k}^{(1)} =  \mbox{smooth} [  \epsilon_{i[k]}^{(1)} \,\, \mbox{on}   \,\, x_{ik} ] 
+  $$ where any reasonable smoother could be used (e.g. a loess or spline)
+  \item Iterate in finding updated estimates of the functions until the partial functions converge, ie. they no longer change from one iteration to the next
+  \end{enumerate}
+Key result: We now have estimates of $s_k(x_{ij})$ for every value of $x_j$ and we have reduced the multiple regression problem into a series of two-dimensional partial regression functions.\\\bigskip This makes interpretation easy: we can plot functions which show the partial effects of each $x$ on $y$ (controlling for other $X$s)
+\end{frame}
+
+\subsection{Interpretation}
+
+ \begin{frame}[fragile]
+\frametitle{Interpretation: GAM Partial Regression Plots}
+\small
+\begin{itemize}
+  \item  A plot of of $x_j$ versus $s_j(x_j)$ shows the relationship between $x_j$ and $y$ holding constant the other variables in the model
+  \item Since $y$ is in mean deviation form, the smooth term $s_j(x_j)$ is also centered and thus each plot represents how $y$ changes \alert{relative to its mean} with changes in $x$
+  \item Interpretation of scale of GAM plots is also straightforward
+  
+  \begin{itemize}
+  
+ \item Value of 0 on Y-axis is the mean of $y$\medskip
+ \item Deviations from zero are deviations from the mean and we can add the mean to obtain the fitted values 
+      \end{itemize}
+  
+\end{itemize}
+\end{frame}
+
+\frame{
+\frametitle{Which Smoother to Use? }
+
+\begin{figure}[ht] \centering
+        \scalebox{1.2}{\includegraphics{splines.pdf}}
+     \end{figure}
+  Need to find the right balance between under and over-smoothing   
+}
+
+
+ \begin{frame}[fragile]
+\frametitle{Generalized Additive Models (GAM)}
+
+The GAM approach can be extended to allow \alert{interactions} ($s_{12}(\cdot)$) between explanatory variables, but this eats up degrees of freedom so you need a lot of data (often thin plate splines are used here).
+
+$$
+y_i = \beta_0 + \alert{s_{12}(x_{1i}, x_{2i})} + \alert{s_3(x_{3i})} + u_i
+$$\bigskip \pause
+
+It can also be used for \alert{hybrid models} where we model some variables as parametrically and other with a flexible function:
+
+$$
+y_i = \beta_0 + \beta_1 x_{1i} + \alert{s_2(x_{2i})} + \alert{s_3(x_{3i})} + u_i
+$$
+
+\end{frame}
+
+\subsection{Examples}
+
+\frame{
+\frametitle{Effect of Disaster Aid on Vote Share}
+
+\begin{figure}[ht] \centering
+        \scalebox{.7}{\includegraphics{gamelbe1.pdf}}
+     \end{figure}
+     
+     \scriptsize{Bechtel and Hainmueller. 2011. ``How Lasting is Voter Gratitude? An Analysis of the Short- and Long-term Electoral Returns to Beneficial Policy". American Journal of Political Science.}
+
+}
+
+\frame{
+\frametitle{Effect of Disaster Aid on Vote Share}
+\vspace{-.3in}
+\begin{figure}[ht] \centering
+        \scalebox{.4}{\includegraphics[angle=270]{elbe.pdf}}
+     \end{figure}
+     
+ %    \scriptsize{Bwechtel and Hainmueller. 2011. ``How Lasting is Voter Gratitude? An Analysis of the Short- and Long-term Electoral Returns to Beneficial Policy". American Journal of Political Science.}
+
+}
+
+\frame{
+\frametitle{GAM Fit to Diadic Democracy and Militarized Disputes}
+
+\begin{figure}[ht] \centering
+        \scalebox{.6}{\includegraphics{dempeace.pdf}}
+     \end{figure}
+
+}
+
+\subsection{Implementing GAMs in R}
+
+
+ \begin{frame}[fragile]
+\frametitle{Generalized Additive Models (GAM)}
+
+\begin{itemize}
+\item Workhorse function is \textit{gam()} in \textit{mgcv} package \medskip
+\item The formula takes the same form as the \textit{glm} function except now we have the option of having parametric terms and smoothed estimates \medskip
+\item Smooths will be fit to any variable specified with the \textit{s(x)} argument (can also use other smoothers \textit{te, ti or t2}) \medskip
+\item Example: \textit{gam.out $<$- gam(y$\sim$x1+s(x2)+s(x3),data=data)}\\ (add \textit{family} to use with any standard GLM) \medskip
+\item Can use \textit{plot(gam.out)}, \textit{predict(gam.out)}, and \textit{summary(gam.out)}  methods to interpret results
+\item The summary function returns tests for each smooth, the degrees of freedom for each smooth, and an adjusted R- square for the model. 
+\item Statistical inference and hypothesis testing is based on the deviance with approximate empirical degrees of freedom
+\end{itemize}
+
+\end{frame}
+
+
+\frame{
+\frametitle{Example: Attitudes Towards Immigration}
+
+\begin{itemize}
+  \item Outcome: Pro-Immigration Attitudes
+\begin{footnotesize}
+  \begin{itemize}
+    \item 1 Strongly opposed to increase in immigration
+    \item .
+    \item 5 Strongly in favour of increase in immigration
+  \end{itemize}
+\end{footnotesize}
+  \item Highest Educational Attainment:\\
+\begin{footnotesize}
+\begin{itemize}
+  \item 1 Less than high school
+  \item 2 Some high school, no diploma
+  \item 3 Graduated from high school- Diploma or equivalent (GED)
+  \item 4 Some college, no degree
+  \item 5 Associate degree (AA, AS)
+  \item 6 Bachelor's degree
+  \item 7 Master's degree
+  \item 8 Professional degree (MD, DDS, LLB, JD)
+  \item 9 Doctorate degree
+\end{itemize}
+\end{footnotesize}
+%  \item Household Income
+%\begin{footnotesize}
+%  \begin{itemize}
+%    \item 1  Less than \$5,000
+%    \item
+%    \item 19 More than \$175,000
+%\end{itemize}
+%\end{footnotesize}
+  \item Age of Respondent
+\begin{footnotesize}
+  \begin{itemize}
+    \item 18 years to 93 years
+\end{itemize}
+\end{footnotesize}
+
+\end{itemize}
+
+}
+%
+\frame{
+\frametitle{Attitudes Towards Immigration (2008)}
+
+\begin{figure}[ht] \centering
+        \scalebox{.55}{\includegraphics{fig0-nl.pdf}}
+     \end{figure}
+
+}
+
+\frame{
+\frametitle{Immigration Attitudes and Education}
+
+\begin{figure}[ht] \centering
+        \scalebox{.45}{\includegraphics{fig1i-nl.pdf}}
+     \end{figure}
+
+}
+
+\frame{
+\frametitle{Immigration Attitudes and Education}
+
+\begin{figure}[ht] \centering
+        \scalebox{.45}{\includegraphics{fig2i-nl.pdf}}
+     \end{figure}
+
+}
+
+
+\begin{frame}[fragile]
+\frametitle{Immigration Attitudes and Education}
+
+\begin{verbatim}[fontsize=\footnotesize, frame=single, label=R Code]
+> mod0 <- lm(imgpro5mod1~ppeduc, data=d)
+> coeftest(mod0)
+
+t test of coefficients:
+
+            Estimate Std. Error t value  Pr(>|t|)
+(Intercept) 1.859180   0.081894 22.7022 < 2.2e-16 ***
+ppeduc      0.165658   0.017636  9.3929 < 2.2e-16 ***
+---
+Signif. codes:  0 *** 0.001 ** 0.01 * 0.05 . 0.1   1
+\end{verbatim}
+
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{Immigration Attitudes and Education}
+
+\begin{verbatim}[fontsize=\footnotesize, frame=single, label=R Code]
+> mod0a <- lm(imgpro5mod1~factor(ppeduc), data=d)
+> coeftest(mod0a)
+
+t test of coefficients:
+
+                Estimate Std. Error t value  Pr(>|t|)
+(Intercept)     2.173913   0.253720  8.5682 < 2.2e-16 ***
+factor(ppeduc)2 0.261461   0.272848  0.9583 0.3380747
+factor(ppeduc)3 0.096465   0.259456  0.3718 0.7100945
+factor(ppeduc)4 0.324500   0.262820  1.2347 0.2171310
+factor(ppeduc)5 0.461008   0.275907  1.6709 0.0949432 .
+factor(ppeduc)6 0.673605   0.263864  2.5528 0.0107779 *
+factor(ppeduc)7 1.059170   0.274784  3.8546 0.0001206 ***
+factor(ppeduc)8 0.740373   0.326614  2.2668 0.0235363 *
+factor(ppeduc)9 1.186087   0.351565  3.3737 0.0007595 ***
+\end{verbatim}
+
+\end{frame}
+
+
+\frame{
+\frametitle{Immigration Attitudes and Age}
+
+\begin{figure}[ht] \centering
+        \scalebox{.45}{\includegraphics{fig5i-nl.pdf}}
+     \end{figure}
+
+}
+
+\frame{
+\frametitle{Immigration Attitudes and Age}
+
+\begin{figure}[ht] \centering
+        \scalebox{.45}{\includegraphics{fig6i-nl.pdf}}
+     \end{figure}
+
+}
+
+\begin{frame}[fragile]
+\frametitle{Immigration Attitudes and Age}
+
+\begin{verbatim}[fontsize=\footnotesize, frame=single, label=R Code]
+> mod1 <- lm(imgpro5mod1~ppage, data=d)
+> coeftest(mod1)
+t test of coefficients:
+              Estimate Std. Error t value  Pr(>|t|)
+(Intercept)  2.8201106  0.0957797  29.444 < 2.2e-16 ***
+ppage       -0.0051324  0.0018772  -2.734  0.006326 **
+>
+> mod1a <- lm(imgpro5mod1~ppage+I(ppage^2), data=d)
+> coeftest(mod1a)
+t test of coefficients:
+               Estimate  Std. Error t value  Pr(>|t|)
+(Intercept)  3.60493245  0.23929787 15.0646 < 2.2e-16 ***
+ppage       -0.04123139  0.01026562 -4.0165 6.184e-05 ***
+I(ppage^2)   0.00036702  0.00010262  3.5763 0.0003589 ***
+\end{verbatim}
+
+\end{frame}
+
+\frame{
+\frametitle{Immigration Attitudes, Education and Age}
+
+\begin{figure}[ht] \centering
+        \scalebox{.45}{\includegraphics{fig3d1-nl.pdf}}
+     \end{figure}
+
+}
+
+\frame{
+\frametitle{Immigration Attitudes, Education and Age}
+
+\begin{figure}[ht] \centering
+        \scalebox{.45}{\includegraphics{fig3d2-nl.pdf}}
+     \end{figure}
+}
+
+
+\frame{
+\frametitle{Immigration Attitudes, Education and Age}
+
+Go through GAM Code
+
+}
+%
+%
+%\frame{
+%\frametitle{GAM Fit to Attitudes Toward Immigration}
+%
+%\begin{figure}[ht] \centering
+%        \scalebox{.4}{\includegraphics{gam1.pdf}}
+%     \end{figure}
+%
+%}
+%
+%\frame{
+%\frametitle{GAM Fit to Attitudes Toward Immigration}
+%
+%\begin{figure}[ht] \centering
+%        \scalebox{.4}{\includegraphics{gam2.pdf}}
+%     \end{figure}
+%
+%}
+%
+%\frame{
+%\frametitle{GAM Fit to Attitudes Toward Immigration}
+%
+%\begin{figure}[ht] \centering
+%        \scalebox{.4}{\includegraphics{gam3.pdf}}
+%     \end{figure}
+%
+%}
+%
+%\frame{
+%\frametitle{GAM Fit to Attitudes Toward Immigration}
+%
+%\begin{figure}[ht] \centering
+%        \scalebox{.4}{\includegraphics{gam3a.pdf}}
+%     \end{figure}
+%
+%}
+%
+%\frame{
+%\frametitle{GAM Fit to Attitudes Toward Immigration}
+%
+%\begin{figure}[ht] \centering
+%        \scalebox{.4}{\includegraphics{gam4.pdf}}
+%     \end{figure}
+%
+%}
+%
+%\frame{
+%\frametitle{GAM Fit to Attitudes Toward Immigration}
+%
+%\begin{figure}[ht] \centering
+%        \scalebox{.4}{\includegraphics{gam4a.pdf}}
+%     \end{figure}
+%
+%}
+
+
+\frame{
+\frametitle{Further Readings on More Flexible Regression Methods}
+\small
+\begin{itemize}
+      \item Beck, N. and Jackman, S. 1998. Beyond Linearity by Default: Generalized Additive Models. \emph{American Journal of Political Science}. 
+  \item Wood (2003). ``Thin plate regression splines.'' \emph{Journal of the Royal Statistical Society: Series B}.\medskip
+      \item Hastie, T.J. and Tibshirani, R.J. 1990. \emph{General Additive Models}.\medskip
+%    \item Hastie, Tibshirani, and Friedman (2009). \emph{The Elements of Statistical Learning: Data Mining, Inference, and Prediction}. Springer. \medskip
+\end{itemize}
+
+}
+
+%\section{Summary: Regression Diagnostics}
+%
+%
+% \begin{frame}[fragile]
+%\frametitle{Diagnostics of Violations of Regression Assumptions}
+%\vspace{-.15in}
+%\begin{figure}[ht] \centering
+%        \scalebox{.45}{\includegraphics{summaryofdiagnostics2.pdf}}
+%     \end{figure}
+%
+%\end{frame}
+
+
+\end{document}
