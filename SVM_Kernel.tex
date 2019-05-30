@@ -1,0 +1,811 @@
+\documentclass{beamer}
+
+%\usepackage[table]{xcolor}
+\mode<presentation> {
+  \usetheme{Boadilla}
+%  \usetheme{Pittsburgh}
+%\usefonttheme[2]{sans}
+\renewcommand{\familydefault}{cmss}
+%\usepackage{lmodern}
+%\usepackage[T1]{fontenc}
+%\usepackage{palatino}
+%\usepackage{cmbright}
+  \setbeamercovered{transparent}
+\useinnertheme{rectangles}
+}
+%\usepackage{normalem}{ulem}
+%\usepackage{colortbl, textcomp}
+\setbeamercolor{normal text}{fg=black}
+\setbeamercolor{structure}{fg= black}
+\definecolor{trial}{cmyk}{1,0,0, 0}
+\definecolor{trial2}{cmyk}{0.00,0,1, 0}
+\definecolor{darkgreen}{rgb}{0,.4, 0.1}
+\newtheorem{com}{Comment}
+\newtheorem{lem} {Lemma}
+\newtheorem{prop}{Proposition}
+\newtheorem{thm}{Theorem}
+\newtheorem{defn}{Definition}
+\newtheorem{cor}{Corollary}
+\newtheorem{obs}{Observation}
+ \numberwithin{equation}{section}
+
+
+\newcommand\indep{\protect\mathpalette{\protect\independenT}{\perp}}
+\def\independenT#1#2{\mathrel{\rlap{$#1#2$}\mkern2mu{#1#2}}}
+
+\usefonttheme{professionalfonts} % using non standard fonts for beamer
+\usefonttheme{serif}
+
+\beamertemplatesolidbackgroundcolor{white}  \setbeamercolor{alerted
+text}{fg=red}
+\usepackage{multirow}
+
+\setbeamertemplate{caption}[numbered]\newcounter{mylastframe}
+
+%\begin{beamerboxesrounded}[upper=uppercol,lower=lowercol,shadow=true]{Block}
+%$A = B$.
+%\end{beamerboxesrounded}}
+\renewcommand{\familydefault}{cmss}
+\usepackage[all]{xy}
+\usepackage{tikz}
+\usetikzlibrary{arrows}
+%\usepackage{palatino}
+%\usepackage{eulervm}
+\usecolortheme{lily}
+%\usepackage[latin1]{inputenc}
+
+\title[Methodology III] % (optional, nur bei langen Titeln nötig)
+{Political Methodology III: Model Based Inference}
+
+\author{Justin Grimmer}
+\institute[Stanford University]{Professor\\Department of Political Science \\  Stanford University}
+\vspace{0.3in}
+
+\date{May 29th, 2019}
+
+\begin{document}
+\begin{frame}
+\titlepage
+\end{frame}
+
+
+
+
+
+
+
+
+\begin{frame}
+\frametitle{Support Vector Machines} 
+
+Observation $i$ is an $J \times 1$ vector 
+\begin{eqnarray}
+\boldsymbol{x}_i & = & (x_{1i}, x_{2i}, \hdots, x_{Ji} ) \nonumber 
+\end{eqnarray}
+
+Suppose we have \alert{two} classes, $C_1, C_2$.  
+\begin{eqnarray}
+Y_i & = & 1 \text{ if $i$ is in class 1} \nonumber \\
+Y_i & = & -1 \text{ if $i$ is in class 2} \nonumber 
+\end{eqnarray}
+
+
+
+Suppose they are \alert{separable}: 
+\begin{itemize} 
+\item[-] Draw a line between groups
+\item[-] Goal: identify the line \alert{in the middle} 
+\item[-] \alert{Maximum margin} 
+\end{itemize}
+
+
+
+\end{frame}
+
+
+\begin{frame}
+\frametitle{Support Vector Machines: Maximum Margin Classifier (Bishop 2006)} 
+
+\only<1>{\scalebox{0.45}{\includegraphics{SVM1.pdf}}}
+\only<2>{\scalebox{0.45}{\includegraphics{SVM2.pdf}}}
+\only<3>{\scalebox{0.45}{\includegraphics{SVM3.pdf}}}
+\only<4>{\scalebox{0.45}{\includegraphics{SVM4.pdf}}}
+\only<5>{\scalebox{0.45}{\includegraphics{SVM5.pdf}}}
+
+
+
+\end{frame}
+
+\begin{frame}
+\frametitle{Support Vector Machines: Algebra (Bishop 2006) } 
+
+Goal create a score to classify: 
+\begin{eqnarray}
+s(\boldsymbol{x}_i) & = & \boldsymbol{\beta}^{'} \boldsymbol{x}_i + b \nonumber 
+\end{eqnarray} 
+
+
+
+\begin{itemize}
+\item[-] $\boldsymbol{\beta} $ Determines orientation of surface (slope) 
+\item[-] $b$ determines location (moves surface up or down)
+\item[-] If $s(\boldsymbol{x}_i) > 0 \rightarrow $ class 1
+\item[-] If $s(\boldsymbol{x}_i ) < 0 \rightarrow $ class 2 
+\item[-] $\frac{| s(\boldsymbol{x}_i) | } {|| \boldsymbol{\beta} || } $ = Document distance from decision surface  (margin) 
+\end{itemize}
+
+
+\end{frame}
+
+
+\begin{frame}
+\frametitle{Support Vector Machines: Algebra (Bishop 2006) } 
+
+Objective function: \alert{maximum} \textcolor{purple}{margin} \pause \\
+\invisible<1>{$\text{ min}_{i} [\text{   } | (s(\boldsymbol{x}_i) |\text{   } ]  $: Point closest to decision surface } \pause \\
+\invisible<1-2>{We want to identify $\boldsymbol{\beta}$ and $b$ to maximize the margin:  } \pause
+
+\begin{eqnarray}
+\invisible<1-3>{\text{arg max}_{\boldsymbol{\beta}, b }  \left\{ \frac{1}{||\boldsymbol{\beta} || } \text{ min}_{i} [\text{   } | (s(\boldsymbol{x}_i) |\text{   } ] \right\} \nonumber } \pause \\
+\invisible<1-4>{\text{arg max}_{\boldsymbol{\beta}, b }  \left\{ \frac{1}{||\boldsymbol{\beta} || } \text{ min}_{i} [\text{   } | \boldsymbol{\beta}^{'} \boldsymbol{x}_i + b |\text{   } ] \right\} \nonumber  } \pause
+\end{eqnarray}
+
+\invisible<1-5>{Constrained optimization problem $\leadsto$ Quadratic programming problem }  
+
+\end{frame}
+
+
+\begin{frame}
+\frametitle{What About Overlap? (Bishop 2006) }
+
+\begin{itemize}
+\item[-] Rare that classes are separable.\pause 
+\invisible<1>{\item[-] Define: } \pause 
+\end{itemize}
+\begin{eqnarray}
+\invisible<1-2>{\xi_i & = & 0 \text{  if correctly classified } } \pause \nonumber \\ 
+\invisible<1-3>{\xi_i & = & |s(\boldsymbol{x}_i) |  \text{ if incorrectly classified }} \nonumber \pause 
+\end{eqnarray}
+\invisible<1-4>{Tradeoff: } \pause
+\begin{itemize}
+\invisible<1-5>{\item[-] Maximize margin between correctly classified groups} \pause
+\invisible<1-6>{\item[-] Minimize error from misclassified documents } \pause
+\end{itemize}
+\begin{eqnarray}
+\invisible<1-7>{\text{arg max}_{\boldsymbol{\beta}, b }  \left\{ C\sum_{i=1}^{N} \xi_i +  \frac{1}{||\boldsymbol{\beta} || } \text{ min}_{i} [\text{   } | \boldsymbol{\beta}^{'} \boldsymbol{x}_i + b |\text{   } ] \right\}} \pause \nonumber 
+\end{eqnarray}
+
+\invisible<1-8>{\alert{C} captures tradeoff } \pause
+
+
+\end{frame}
+
+\begin{frame}
+\frametitle{How to Handle Multiple Comparisons?}
+
+\begin{itemize}
+\item[-] Rare that we only want to classify two categories \pause 
+\invisible<1>{\item[-] How to handle classification into $K$ groups? } \pause 
+\begin{itemize}
+\invisible<1-2>{\item[1)] Set up $K$ classification problems: } \pause 
+\begin{itemize}
+\invisible<1-3>{\item[-] Compare each class to all other classes} \pause 
+\invisible<1-4>{\item[-] Problem: can lead to inconsistent results} \pause 
+\invisible<1-5>{\item[-] Solution(?): select category with largest ``score"} \pause 
+\invisible<1-6>{\item[-] Problem: scales are not comparable} \pause 
+\end{itemize}
+\invisible<1-7>{\item[2)] Common solution: set up $K(K-1)/2$  classifications} \pause 
+\invisible<1-8>{\item[-] Perform vote to select class (still suboptimal) } \pause 
+\invisible<1-9>{\item[3)] Simultaneous estimation possible, much slower }
+\end{itemize}
+\end{itemize}
+
+\end{frame}
+
+
+\begin{frame}
+\frametitle{{\tt R} Code to Run SVMs } 
+
+
+{\tt library(e1071) } \\
+{\tt fit<- svm(T~. , as.data.frame(tdm) , method ='C', kernel='linear') } \\
+where:
+{\tt method = `C'} $\rightarrow$ Classification \\
+{\tt kernel='linear'} $\rightarrow$ allows for distortion of feature space.  Options:\\
+\begin{itemize} 
+\item[-] Linear
+\item[-] Polynomial
+\item[-] Radial
+\item[-] sigmoid
+\end{itemize}
+{\tt preds<- predict(fit, data = as.data.frame(tdm[-c(1:no.train),]))}
+
+\end{frame}
+
+\begin{frame}
+\frametitle{SVMs $\leadsto$ Political Science Research} 
+
+Hillard, Purpura, Wilkerson: SVMs to code topic/sub topics for policy agendas project
+
+\scalebox{0.5}{\includegraphics{PurpuraWilkerson.png}}
+
+
+\end{frame}
+
+
+
+\begin{frame}
+
+\huge 
+Kernel Trick (Huge literature in machine learning) and KRLS (Hazlett and Hainmueller 2014; Hazlett inspired slides)
+
+\end{frame}
+
+
+\begin{frame}
+
+We want \alert{flexible} models
+
+\begin{itemize}
+\item[-] Recover complicated functional form
+\item[-] Recover systematic features of data
+\end{itemize}
+
+\alert{Introduction to Flexible Regression}
+
+
+
+
+\end{frame}
+
+
+
+
+\section{Prerequisites}
+\subsection{Feature Maps}
+\begin{frame}{fragile}
+\footnotesize{
+\frametitle{Prerequisite 1: Feature Maps}
+
+\begin{itemize}
+\item $y_{i} \in \Re$ Dependent variable
+\item $\boldsymbol{x}_{i} \in \Re^{J}$ is $J \times 1$ covariate 
+\end{itemize}
+
+
+
+\pause
+
+\begin{block}{Feature Map}
+A \textit{feature map} $\phi(x_i)$ is a mapping from $\Re^J \rightarrow \Re^{J'}$, usually with $J'>>J$ \\
+
+
+\end{block}}
+\begin{itemize}
+\item<3->[] \vspace{-.1in}\hspace{-.2in}{For example,}\\
+\vspace{-.2in}
+$$ \phi([x_1, \, x_2])  =  [x_1,\, x_2, \, x_1^2,\, x_2^2, \, x_1\cdot x_2]^T $$
+\item<4-> You are used to models linear in $x$:
+$$f(x_i) = \sum_{j=1}^J (x_i)^{(j)} \beta_j $$
+\item<5-> We'll be working with models linear in $\phi(x)$
+$$f(x_i) = \sum_{j=1}^{J'} \phi(x_i)^{(j)} \theta_j$$
+\end{itemize}
+\end{frame}
+
+\subsection{Inner Products}
+\begin{frame}
+\frametitle{Prereqs 2: Inner Products}
+\begin{itemize}
+%\item<1-> Inner-products are generalization of the dot-product.
+\item<2->[] \hspace{-.2in} Consider vector $u,v,w\in \mathbb{R}^J$, and scalar $a$.
+\item<3-> Standard inner-product: $\langle u,v \rangle =u^T v$.
+\item<4-> More broadly, an inner-product $\langle u,v \rangle_\star$ satisfies:
+\begin{enumerate}
+\item<5-> Symmetry: $\langle u,v \rangle=\langle v,u \rangle$
+\item<5-> Linearity: $\langle au,v \rangle=a\langle u,v\rangle$, and $\langle u+w,v\rangle=\langle u,v\rangle+\langle w,v\rangle$
+\item<5-> Positive Definite:  $\langle u,u \rangle \geq 0$.
+\end{enumerate}
+\bigskip
+\item<7-> Some common uses:
+\begin{itemize}
+\item<8-> Orthogonality: if $\overline{u},\overline{v}=0$, $u,v$ orthogonal if $\langle u,v \rangle=0$
+\smallskip
+\item<8-> Length of a vector, e.g. $||u||=\sqrt{\langle u,u \rangle}$
+\smallskip
+\item<8->[] \footnotesize{where $||\cdot||$ is a norm, in this case the Euclidean norm}
+\smallskip
+\item<8-> Distance between vectors, e.g. $||u-v||=\sqrt{\langle u-v,u-v \rangle}$
+\end{itemize}
+\end{itemize}
+\end{frame}
+
+\subsection{PSD Kernels}
+\begin{frame}
+\frametitle{Prereqs 3: Kernels}
+\vspace{-.3in}
+\footnotesize{
+\begin{block}{Kernel}
+A kernel is a function $\Re^{J} \times \Re^{J} \rightarrow \Re$ \\
+$$ k(x_i,x_l)\rightarrow \Re $$
+\end{block}}
+\pause
+Interpretable as an inverse distance metric.  
+\footnotesize
+\begin{block}{Gaussian Kernel}
+%$$k(\cdot,\cdot): \mathbb{R}^D \times \mathbb{R}^D \mapsto \mathbb{R}$$
+$$k(x_l,x_i)=e^{-\frac{||x_l-x_i||^2}{\sigma^2}}$$
+where $||x_l-x_i||$ is the Euclidean distance between $x_l$ and $x_i$
+\end{block}
+\end{frame}
+
+\begin{frame}
+\frametitle{Prereqs 3b: Positive Semi-Definite Kernels}
+\begin{itemize}
+\item<1-> Construct ``kernel matrix'' $K$ s.t. $K_{l,i}=k(x_l,x_i)$.
+\item<2-> What are some properties of $K$?  What are its dimensions?
+\item<3->[] \footnotesize{
+\begin{block}{Definition: Positive Semi-definite Kernels}
+A kernel function $k(\cdot,\cdot)$ is positive semi-definite (PSD) if and only if for any $u \in \Re^{N} $, $u^T Ku\geq 0$.
+\end{block}}
+\item<4-> Fact:  for any Positive Semi-Definite kernel $k$ there exists some choice of $\phi(\cdot)$ s.t. $$k(x_i,x_l)=\langle \phi(x_i),\phi(x_l)\rangle$$
+%\item<7-> Where $\langle \cdot,\cdot \rangle$ is the inner-product.\\ Here is it just a dot-product, so:
+%$$k(x_i,x_j)=\langle \phi(x_i),\phi(x_j)\rangle=\phi(x_i)^T\phi(x_j)$$
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{Some examples of kernels as inner-products}
+\begin{itemize}
+  \item<1-> Take vectors (observations) $\boldsymbol{x}=[x_1,x_2]^{'}$, and $\boldsymbol{y}=[y_1,y_2]^{'}$.
+  \item<2-> Suppose you construct \footnotesize{$$\phi(\boldsymbol{x})=[1, \sqrt{2} x_1, \sqrt{2}x_2,x_1^2,\sqrt{2}x_1x_2,x_2^2]^T$$}
+  \item<3-> Define $\langle \boldsymbol{x}, \boldsymbol{y} \rangle = \boldsymbol{x}^{'}\boldsymbol{y}$ 
+  \item<3-> Then
+  \footnotesize{
+  \begin{align}
+    \langle \phi(\boldsymbol{x}),\phi(\boldsymbol{y}) \rangle &= \phi(x)=[1, \sqrt{2} x_1, \sqrt{2}x_2,x_1^2,\sqrt{2}x_1x_2,x_2^2] \left[ \begin{array}{c}
+                                                                                                           1  \\
+                                                                                                          \sqrt{2} y_1 \\
+                                                                                                          \sqrt{2}y_2 \\
+                                                                                                          y_1^2 \\
+                                                                                                          \sqrt{2}y_1y_2 \\
+                                                                                                          y_2^2
+                                                                                                        \end{array} \right]  \nonumber \\
+  &= 1+2x_1y_1+2x_2y_2+x_1^2y_1^2+2x_1x_2y_1y_2+x_2^2y_2^2 \nonumber \\
+  &= (1+\langle \boldsymbol{x},\boldsymbol{y} \rangle)^2  \nonumber
+  \end{align} }
+  \item<4-> So $k(\boldsymbol{x},\boldsymbol{y})=(1+\langle x,y \rangle)^2$ is same as $\langle \phi(x),\phi(y) \rangle$, without having to do the mapping
+%   $$\langle \phi(x),\phi(y) \rangle= 1+2x_1y_1+2x_2y_2+x_1^2y_1^2+2x_1x_2y_1y_2+x_2^2y_2^2$$
+%  \item Then $k(x,y)=\langle \phi(x),\phi(y) \rangle=x_1y_1+x_2y_2+x_1^2y_1^2+2x_1x_2y_1y_2+x_2^2 y_2^2$
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{Some examples of kernels as inner-products}
+Some other kernels:
+\begin{itemize}
+  \item<1-> \small{More generally $k(\boldsymbol{x},\boldsymbol{y})=(1+\langle x,y \rangle)^d$ maps to $d$-order polynomials}
+  \item<2-> Linear kernel: $k(\boldsymbol{x},\boldsymbol{y})=\boldsymbol{x}^{'}\boldsymbol{y}$, so $\phi(\boldsymbol{x})=\boldsymbol{x}$
+  \item<3-> Gaussian kernel maps to infinite-dimensional $\phi(\cdot)$
+  \bigskip
+  \item<4->[]\hspace{-.3in} \alert{Why do you care?}
+  \footnotesize{
+\begin{block}{The Kernel Trick}
+If you can write an algorithm that uses the data only as inner-products, you can operate in high or infinite dimensional feature space without ever computing $\phi(\boldsymbol{x})$.
+\end{block}
+}
+\end{itemize}
+\end{frame}
+
+\section{Regression in $\phi(x)$}
+\begin{frame}{Using the Kernel Trick for Regression}
+\begin{itemize}
+\footnotesize
+\item<1-> A feature map, $\phi: \Re^J \mapsto \Re^{J'},$ such that: $k(x_i,x_l)=\langle \phi(x_i),\phi(x_l) \rangle$
+\smallskip
+\item<2-> A linear model in the new features: $f(x_i)=\phi(x_i)^{'}\theta$, $\theta \in \mathbb{R}^{J'}$
+\item<3-> Regularized (ridge) regression: \\
+$$\underset{\theta \in \mathbb{R}^{J'}}{\operatorname{argmin}} \sum_{i=1}^{N} (y_i-\phi(x_i)^{'}\theta)^2+\lambda \langle \theta,\theta \rangle$$
+\item<4-> Solve the F.O.C.s:
+\scriptsize
+\begin{align}
+ R(\theta)&= \sum_{i=1}^{N} (y_i-\phi(x_i)^{'}\theta)^2+\lambda \theta^{'} \theta \nonumber  \\
+ \frac{\partial R(\theta)}{\partial \theta} &=  -2 \sum_{i=1}^{N} \phi(x_i)(y_i-\phi(x_i)^{'}\theta) + 2\lambda \theta = 0 \nonumber
+\end{align}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Infinite Ridge Regression}
+\footnotesize
+$$\theta = \frac{1}{\lambda}\sum_i^N {\color{blue}(y_i-\phi(x_i)^{'}\theta)} \phi(x_i)$$
+\begin{itemize}
+\item<2->Looks scary, but ${\color{blue}y_i-\phi(x_i)^{'} \theta}$ is just $N$ scalars.
+\medskip
+\item<3-> Let $c_i=\frac{1}{\lambda}{\color{blue}(y_i-\phi(x_i)^{'} \theta)}$, then
+\scriptsize
+\begin{equation}\label{eq:spanoffeatures}
+       \theta = \sum_{i=1}^{N} c_i \phi(x_i)
+\end{equation}
+
+\item<4->[] \hspace{-.2in} \small This is great! Despite being possibly infinite-dimensional,
+\begin{itemize}
+\item<5-> \footnotesize Solution for $\theta$ is in the span of features at observed points
+\item<6-> \footnotesize And has just $N$ parameters
+\item<7-> \footnotesize This result given more directly by Representer Theorem
+\end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{Infinite Dimensional Ridge Regression: Solution}
+\vspace{-.03in}
+To get $f(x)$ we never need to see $\phi(x)$:
+\pause
+\footnotesize
+\begin{align*}
+ f(x_i) &= \phi(x_i)^{'} {\color{blue}\theta} \\
+% &= \phi(x^{\star})\sum_{j=1}^{N} c_j \phi(x_j)\\
+ &= \phi(x_i)^{'} {\color{blue}\sum_{j=1}^N c_j \phi(x_j)}\\
+ &= \sum_{j=1}^N c_j \langle \phi(x_i),\phi(x_j) \rangle \\
+ &= \sum_j^N c_j k(x_j,x_i)
+\end{align*}
+
+\begin{itemize}
+\item<2-> Or in vectors, $$y=Kc$$
+\item<3-> And the regularizer, $\langle \theta,\theta \rangle = ||\theta||^2$
+$$\langle\theta,\theta\rangle=\langle {\color{blue}\sum_{i=1}^{N} c_i \phi(x_i),\sum_{i=1}^{N} c_i \phi(x_i)}\rangle=c^T K c$$
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}
+\frametitle{Infinite Dimensional Ridge Regression}
+\small{The key formula there is $f(x)=\sum_j^N c_j k(x_j,x)$, or $y=Kc$.} \\
+\bigskip
+\pause
+\bigskip
+\begin{equation*}
+\left[
+              \begin{array}{c}
+                y_1 \\
+                y_2 \\
+                \vdots \\
+                y_N \\
+              \end{array}
+            \right]= \left[
+       \begin{array}{cccc}
+         k(x_1,x_1) & k(x_1,x_2) & \ldots & k(x_1,x_N) \\
+         k(x_2,x_1) & k(x_2,x_2)  &  \ldots & k(x_2,x_N) \\
+         \vdots    & \vdots &  \ddots & \vdots \\
+         k(x_N,x_1) & k(x_N,x_2) & \ldots & k(x_N,x_N) \\
+       \end{array}
+     \right]\left[
+              \begin{array}{c}
+                c_1 \\
+                c_2 \\
+                \vdots \\
+                c_N \\
+              \end{array}
+            \right]
+\end{equation*}
+
+\end{frame}
+
+
+
+%\begin{frame}
+%\frametitle{Ridge Regression Cont.}
+%\begin{itemize}
+%\item<1-> Notice:
+%%\begin{itemize}
+%%\item<2-> We can therefore access all functions of the form $y=\sum_i^N c_i k(x,x_i)$ or $y=Kc$.
+%%\item<3-> This models $y$ as a linear combination of the columns of $K$
+%%\item<4-> This is a wonderful space; we will explore it in a moment.
+%%\end{itemize}
+%\item<5-> Note The regularizer $||\theta||^2$
+%$$\langle\theta,\theta\rangle=\langle\sum_{i=1}^{N} c_i \phi(x_i),\sum_{i=1}^{N} c_i \phi(x_i)\rangle=c^T K c$$
+%\end{itemize}
+%\end{frame}
+%%
+\begin{frame}{Ridge Regression in Feature Space}
+\begin{itemize}
+\item<1-> \footnotesize Back once more to the minimization problem, we now have:
+$$\underset{c \in \mathbb{R}^N}{\operatorname{argmin}}\,(y-Kc)^{T}(y-Kc)+\lambda c^{T}Kc $$
+
+\item<2-> \footnotesize And we can get these $c$'s in closed-form:
+\begin{block}{Closed-form solution for choice coefficients}
+\begin{equation}
+c=(K+\lambda I)^{-1}y
+\end{equation}
+\end{block}
+
+\item<3-> Summary: we can do ridge regression $\phi(x)$,
+\begin{itemize}
+\item \footnotesize Closed form: $y=Kc$, with $c=(K+\lambda I)^{-1}y$
+\item \footnotesize Even if $\phi(\cdot)$ is infinite-dimensional
+\item \footnotesize We don't need to compute $\phi(x)$, just $\langle \phi(x_i) \phi(x_j) \rangle=k(x_i,x_j)$
+\item \footnotesize No matter the dimension, just $N$ values to solve.
+\item \footnotesize This representation is \textit{linear in the columns of $K$.}
+\item \footnotesize Without regularization this would not have worked!
+\end{itemize}
+\end{itemize}
+\end{frame}
+
+%\end{equation*}
+%
+%\end{itemize}
+%\end{frame}
+%
+%\begin{frame}{Using the Kernel Trick for Regression}
+%\begin{itemize}
+%\footnotesize
+%\item<1-> Substitute $\theta$ back into our model:
+%\scriptsize
+%\begin{eqnarray*}
+%   f(x_i) &=& \theta^T \phi(x_i) \\
+%   &=& \frac{1}{\lambda}\sum_{j=1}^N a_{j}\phi(x_{j})^T \phi(x_i) \\
+%   &=& \sum_{j=1}^N \frac{a_j}{\lambda} k(x_{j},x_i) \\
+%   &=& \sum_{j=1}^{N}c_{j} k(x_{j},x_i)
+%\end{eqnarray*}
+%%\item<2> And the norm, $\theta^{T}\theta=c^T K c$, our $L_2$ norm in the RKHS
+%%\noindent \footnotesize{For $c_i=\frac{a_i}{\lambda}$}
+%\end{itemize}
+%\end{frame}
+%
+
+\section{Intuitive Analogs}
+\frame{
+\frametitle{From RLS to KRLS}
+\begin{itemize}
+\item<2-> All that sounds powerful and generalizes well
+\item<3-> The Gaussian kernel is often a good choice:
+\begin{footnotesize}
+\begin{itemize}
+\item<4-> Terrific empirical performance
+\item<5-> $||f||_K^2$ penalizes high-frequencies
+\item<6-> Has close links to other methods (Gaussian processes)
+\end{itemize}
+\end{footnotesize}
+\medskip
+\item<7-> But we want to:
+\begin{itemize}
+\item<7-> Develop intuitions for this space of functions?
+\item<8-> Get from a good fit to useful quantitites of interest?
+\item<9-> Do inference on those QoIs?
+\end{itemize}
+\medskip
+\item<10-> ``KRLS'' is a particular set of choices and interpretational machinery to accomplish these
+\begin{footnotesize}
+\begin{enumerate}
+\item<11-> Intuitions: Similarity-based, Gaussian superposition
+\item<12-> Choices: Gaussian kernel, $\sigma^2=J$
+\item<13-> Interpretation: pointwise and average marginal effects
+\end{enumerate}
+\end{footnotesize}
+\end{itemize}
+}
+
+
+
+\frame{
+\frametitle{Intuition 1: Similarity}
+\footnotesize Think of the KRLS function space as built on similarity:
+\footnotesize
+$$f(x^{\star})=\sum_{i=1}^N c_i k(x^{\star},x_i)$$ \\
+$$f(x^{\star})= c_1 \mbox{(similarity of $x^{\star}$ to } x_1) + \ldots + c_N \mbox{(similarity of $x^{\star}$ to }x_N)$$
+
+Some random functions from this space: \\
+\vspace{-.1in}
+\begin{figure}[ht]
+    \centering
+    \includegraphics[scale=.12]{functionspace_1.pdf}
+    \includegraphics[scale=.12]{functionspace_2.pdf}
+    \includegraphics[scale=.12]{functionspace_3.pdf} \\
+    \includegraphics[scale=.12]{functionspace_4.pdf}
+    \includegraphics[scale=.12]{functionspace_5.pdf}
+    \includegraphics[scale=.12]{functionspace_6.pdf} \\
+   % \includegraphics[scale=.12]{functionspace_7.pdf}
+   % \includegraphics[scale=.12]{functionspace_8.pdf}
+   % \includegraphics[scale=.12]{functionspace_9.pdf} \\
+%    \includegraphics[scale=.12]{functionspace_10.pdf}
+\end{figure}
+}
+
+
+\begin{frame}
+\small{You can also see it written out this way:} \\\footnotesize{(recalling that $k(x_1,x_2)$ is similarity of $x_1$ to $x_2$)}
+\bigskip
+\begin{equation*}
+\left[
+              \begin{array}{c}
+                y_1 \\
+                y_2 \\
+                \vdots \\
+                y_N \\
+              \end{array}
+            \right]= \left[
+       \begin{array}{cccc}
+         k(x_1,x_1) & k(x_1,x_2) & \ldots & k(x_1,x_N) \\
+         k(x_2,x_1) & k(x_2,x_2)  &  \ldots & k(x_2,x_N) \\
+         \vdots    & \vdots &  \ddots & \vdots \\
+         k(x_N,x_1) & k(x_N,x_2) & \ldots & k(x_N,x_N) \\
+       \end{array}
+     \right]\left[
+              \begin{array}{c}
+                c_1 \\
+                c_2 \\
+                \vdots \\
+                c_N \\
+              \end{array}
+            \right]
+\end{equation*}
+
+\pause
+\small{Or on new (test) data, we have:}
+\begin{align}
+y_{test} &= K_{test} c
+   &= \left[
+       \begin{array}{cccc}
+         k(x_{test1},x_1) & k(x_{test1},x_2) & \ldots & k(x_{test1},x_N) \\
+         k(x_{test2},x_1) & k(x_{test2},x_2)  &  \ldots & k(x_{test2},x_N) \\
+         \vdots    & \vdots &  \ddots & \vdots \\
+         k(x_{Ntest},x_1) & k(x_{Ntest},x_2) & \ldots & k(x_{Ntest},x_N) \\
+       \end{array}
+      \right]\left[
+              \begin{array}{c}
+                c_1 \\
+                c_2 \\
+                \vdots \\
+                c_N \\
+              \end{array}
+            \right]
+\end{align}
+
+
+\end{frame}
+
+\subsection{Gaussian Superposition}
+
+\begin{frame}{Intuition 2: Superposition of Gaussians}
+\scriptsize{
+$$f(\cdot)= c_1 k(\cdot,x_1)+ c_2 k(\cdot,x_2) + \ldots + c_N k(\cdot,x_N)$$
+}
+\vspace{-50pt}
+\begin{figure}[ht]
+  \centering
+  \includegraphics<1>[scale=.55]{fig_superposition_1.pdf}
+  \includegraphics<2>[scale=.55]{fig_superposition_2.pdf}
+  \includegraphics<3>[scale=.55]{fig_superposition_3.pdf}
+  \includegraphics<4->[scale=.55]{fig_superposition_4.pdf}
+\end{figure}
+\begin{itemize}
+\item<5-> \vspace{-30pt} Clarifies that $E[y|x^{\star}] \rightarrow E[y]$ for $x^{\star}$ far from training data.
+\end{itemize}
+\end{frame}
+
+\frame{
+\frametitle{Other Choices}
+\begin{itemize}
+\item<1-> Standardize data before analysis then transformed back
+\bigskip
+\item<2-> $\lambda$ is chosen by GCV
+\bigskip
+\item<3-> $\sigma^2$ is chosen to be $J$. \\
+\smallskip
+\scriptsize{After standardizing, $E[||x_i-x_l||^2]=2J$. Since $k(x_l,x_i)=e^{-\frac{||x_l-x_i||^2}{\sigma^2}}$, choosing $\sigma^2\propto J$ ensures reasonable spread of similarities.}
+\end{itemize}
+}
+
+
+\section{Interpretation}
+
+\frame{
+\frametitle{Quantities of Interest:}
+\begin{itemize}
+\item<1-> $\hat{y}_i=E[y_i|x_i]$, for training or test points
+\bigskip
+\item<2-> In KRLS, partial derivatives vary freely by point: \\
+\scriptsize
+Let $x^{(d)}$ be a particular variable. Then, for a single observation, $j$, we have:
+$$\frac{\partial y}{\partial x_l^{(j)}} \approx \frac{-2}{\sigma^{2}}\sum_i c_i e^{\frac{-||x_i-x_l||^{2}}{\sigma^{2}}} (x_i^{(j)}-x_l^{(j)})$$
+\bigskip
+\item<3-> Can summarize as you like
+\begin{itemize}
+\item<4-> Scatter plots, regress on original $X$
+\item<5-> Histograms
+\item<6->  Sample average partial derivatives
+\scriptsize
+\begin{equation*}
+    E_N\left[\frac{\partial y}{\partial x_l^{(j)}}\right] \approx \frac{-2}{\sigma^2 N}\sum_l\sum_i c_i e^{\frac{-||x_i-x_l||^{2}}{\sigma^{2}}}(x_i^{(j)}-x_l^{(j)}).
+\end{equation*}
+\end{itemize}
+\end{itemize}
+}
+
+
+
+
+
+\begin{frame}[fragile]
+\frametitle{Flexible Interactions: Golder/Brambor}
+\begin{itemize}
+\item<1-> \footnotesize{Brambor et al 2006 argues for multiplicative interaction terms}
+\item<2-> \footnotesize{Example from Golder 2006: \textit{``short-coattails'' hypothesis}}:\\
+ \begin{quote}
+ \scriptsize{temporally-proximate presidential elections reduce the effective number of legislative parties if and only if the number of presidential candidates is sufficiently low.}
+ \end{quote}
+\item<3-> Model:
+\footnotesize{
+\begin{equation}
+\begin{split}
+ElectoralParties = \beta_0 + \beta_1 Proximity + \beta_2 PresidentialCandidates+ \\
+\beta_3 (Proximity \cdot PresidentialCandidates)+\beta_4 Controls + \epsilon \nonumber
+\end{split}
+\end{equation}
+}
+\item<4-> Thus, model asserts: $$\frac{\partial parties}{\partial proximity} = \beta_1+\beta_3 PresidentialCandidates$$
+\end{itemize}
+
+%\footnotesize{\emph{Note}: Top Panel: Figure 3 from \cite{brambor2006understanding}. More temporally proximate presidential and legislative elections lead to fewer effective electoral parties. However, this is true only when there are relatively few presidential candidates, and the effect vanishes when there are large numbers of presidential candidates. Bottom Panel: Scatterplot of pointwise marginal effects of temporal proximity on number of parties ($\frac{\partial parties}{\partial proximity}$), with lowess estimates super-imposed. The plot looks similar to the \cite{brambor2006understanding} model only when there are 3 or more presidential candidates. By contrast at zero presidential candidates (which represents 62\% of the observations included in the Brambor et al. regression), the marginal effect estimates come back towards zero.}
+
+%
+%\begin{figure}[!hbt]
+%\centering
+%\caption{\label{fig:BramborSplit} OLS Results for Brambor et al. Split at two Presidential Candidates}
+%\includegraphics[scale=.4]{./figures/SplitOLS_2andbelow.png}
+%\includegraphics[scale=.4]{./figures/SplitOLS_above2.png}
+%
+%\subcaption*{\footnotesize{\emph{Note}: Results from OLS models identical to those in the previous figure, but split at observations with two or fewer presidential candidates and those with more than two. KRLS estimates differ from the original \cite{brambor2006understanding} result (\ref{fig:Brambor}), suggesting that $\frac{\partial parties}{\partial proximity}$ takes values near zero when $PresidentialCandidates$ is zero (indicating no ``coat-tail effect'' there), and if anything decreases as $PresidentialCandidates$ rises to two, then reverses direction and follows the pattern suggested by \cite{brambor2006understanding} thereafter.  Here we split the sample and conduct OLS analyzes separately when $PresidentialCandidates\leq 2$ and when
+%$PresidentialCandidates>2$. As shown, the OLS results from the split samples reflect the KRLS results.}}
+%\end{figure}
+\end{frame}
+
+\begin{frame}
+\frametitle{Flexible Interactions: Golder/Brambor}
+\begin{figure}[!hbt]
+\centering
+%\caption{\label{fig:Brambor} The marginal effect of temporally proximate presidential elections on the effective number of
+%electoral parties}
+\includegraphics[scale=.3]{FigFromBrambor.jpg}
+\includegraphics[scale=.3]{BramborKRLS.png}
+\end{figure}
+
+\begin{itemize}
+\item<1-> \scriptsize{\emph{Left}: Figure from Brambor 2006.}\\
+\smallskip
+\item<2-> \scriptsize{\emph{Right}: scatterplot of KRLS estimates of $\frac{\partial parties}{\partial proximity}$. Agrees with the Brambor result only where pres. candidates $>2$. At $\leq2$ (70\% of the data), we see opposite effect.}
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\small{Taking this insight back to OLS models:}
+\begin{figure}[!hbt]
+\centering
+%\caption{\label{fig:BramborSplit} OLS Results for Brambor et al. Split at two Presidential Candidates}
+\includegraphics[scale=.25]{SplitOLS_2andbelow.png}
+\includegraphics[scale=.25]{SplitOLS_above2.png}
+\end{figure}
+\begin{itemize}
+\item \footnotesize{At $\leq2$ candidates, zero/opposite effect}
+\item \footnotesize{OLS results from $>2$ candidates matches Brambor results closely}
+
+\end{itemize}
+\end{frame}
+
+
+\begin{frame}
+\frametitle{Conclusion}
+
+\begin{itemize}
+\item[1)] SVM: Classification Surfaces
+\item[2)] Kernel Regression: A Flexible response surface
+\item[3)] KRLS: Approach for estimating social science effects
+\end{itemize}
+
+
+
+
+\end{frame}
+
+
+
+\end{document}
